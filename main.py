@@ -3,8 +3,10 @@
 # throughout this file
 import pygame
 
-# importing variables from the constants.py file
-from constants import * 
+# importing variables from the constants.py, player.py, and circleshape.py
+from constants import *
+from player import *
+from circleshape import * 
 
 # main function
 def main():
@@ -26,6 +28,9 @@ def main():
     #setting up 60 FPS
     clock = pygame.time.Clock()
     dt = 0
+    x = SCREEN_WIDTH / 2
+    y = SCREEN_HEIGHT / 2
+    player = Player (x,y)
 
     #infinite game loop
     while game_running:
@@ -34,6 +39,10 @@ def main():
                 return
 
         pygame.Surface.fill(screen,(0,0,0))
+        
+        #Draw a player before flipping the screen
+        player.draw(screen)
+
         pygame.display.flip()
         clock.tick(60)
         dt = (clock.get_time() / 1000) 
