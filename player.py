@@ -2,6 +2,7 @@ import pygame
 
 from circleshape import CircleShape
 from constants import PLAYER_RADIUS, PLAYER_TURN_SPEED, PLAYER_SPEED
+from asteroid import *
 
 class Player(CircleShape):
     def __init__ (self, x, y):
@@ -19,7 +20,7 @@ class Player(CircleShape):
 
     def draw(self,screen):
         pygame.draw.polygon(screen, (255,255,255),self.triangle(),2)
-    
+
     def rotate(self,dt):
         self.rotation = self.rotation + (PLAYER_TURN_SPEED * dt)
         return self.rotation

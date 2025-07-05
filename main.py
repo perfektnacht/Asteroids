@@ -2,11 +2,14 @@
 # the open-source pygame library
 # throughout this file
 import pygame
+import sys
 
 # importing variables from the constants.py, player.py, and circleshape.py
 from constants import *
 from player import *
 from circleshape import * 
+from asteroid import *
+from asteroidfield import *
 
 # main function
 def main():
@@ -34,11 +37,17 @@ def main():
     #create two groups (updatable & drawable)
     updatable_group = pygame.sprite.Group()
     drawable_group = pygame.sprite.Group()
+    
+    #create a third group for asteroids
+    asteroid_group = pygame.sprite.Group()
 
     #set both groups above as containers for the Player
     Player.containers = (updatable_group, drawable_group)
+    Asteroid.containers = (asteroid_group, updatable_group, drawable_group)
+    AsteroidField.containers = (updatable_group)
 
     player = Player (x,y)
+    asteroidfield = AsteroidField()
 
     #infinite game loop
     while game_running:
@@ -51,10 +60,18 @@ def main():
         #Sets up the player rotation
         for update in updatable_group:
             update.update(dt)
+
+        for asteroid in asteroid_group:
+            if asteroid.collision(player) == True:
+                print("Game Over!")
+                pygame.quit()
+                sys.exit()
+            else:
+                pass
+            
         #Draw a player before flipping the screen
         for draw in drawable_group:
             draw.draw(screen)
-        
 
         pygame.display.flip()
         clock.tick(60)
