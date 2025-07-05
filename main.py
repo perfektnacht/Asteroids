@@ -30,6 +30,14 @@ def main():
     dt = 0
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
+
+    #create two groups (updatable & drawable)
+    updatable_group = pygame.sprite.Group()
+    drawable_group = pygame.sprite.Group()
+
+    #set both groups above as containers for the Player
+    Player.containers = (updatable_group, drawable_group)
+
     player = Player (x,y)
 
     #infinite game loop
@@ -41,10 +49,11 @@ def main():
         pygame.Surface.fill(screen,(0,0,0))
         
         #Sets up the player rotation
-        player.update(dt)
-
+        for update in updatable_group:
+            update.update(dt)
         #Draw a player before flipping the screen
-        player.draw(screen)
+        for draw in drawable_group:
+            draw.draw(screen)
         
 
         pygame.display.flip()
