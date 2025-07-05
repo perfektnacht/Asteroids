@@ -10,6 +10,7 @@ from player import *
 from circleshape import * 
 from asteroid import *
 from asteroidfield import *
+from shot import *
 
 # main function
 def main():
@@ -33,6 +34,7 @@ def main():
     dt = 0
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
+    shots = []
 
     #create two groups (updatable & drawable)
     updatable_group = pygame.sprite.Group()
@@ -41,13 +43,18 @@ def main():
     #create a third group for asteroids
     asteroid_group = pygame.sprite.Group()
 
+    #create a fourth group for asteroids
+    shots_group = pygame.sprite.Group()
+
     #set both groups above as containers for the Player
     Player.containers = (updatable_group, drawable_group)
     Asteroid.containers = (asteroid_group, updatable_group, drawable_group)
     AsteroidField.containers = (updatable_group)
+    Shot.containers = (shots_group, updatable_group, drawable_group)
 
     player = Player (x,y)
     asteroidfield = AsteroidField()
+    shots = []
 
     #infinite game loop
     while game_running:
@@ -59,7 +66,10 @@ def main():
         
         #Sets up the player rotation
         for update in updatable_group:
-            update.update(dt)
+            if isinstance(update, Player):
+                update.update(dt, shots)
+            else:
+                update.update(dt)
 
         for asteroid in asteroid_group:
             if asteroid.collision(player) == True:
@@ -68,7 +78,10 @@ def main():
                 sys.exit()
             else:
                 pass
-            
+        for shot in shots:
+            shot.update(dt)
+            shot.draw(screen)
+
         #Draw a player before flipping the screen
         for draw in drawable_group:
             draw.draw(screen)
