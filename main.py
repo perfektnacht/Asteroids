@@ -84,7 +84,7 @@ def main():
             for asteroid in asteroid_group:
                 if shot.collision(asteroid) == True:
                     shot.kill()
-                    asteroid.kill()
+                    asteroid.split()
 
         #Draw a player before flipping the screen
         for draw in drawable_group:
