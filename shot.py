@@ -18,3 +18,12 @@ class Shot(CircleShape):
     
     def draw(self, screen):
         pygame.draw.circle(screen, (255,255,255), self.position, self.radius, 0)
+
+    def collision(self, asteroid):
+        distance = pygame.math.Vector2.distance_to(self.position,asteroid.position)
+        check_distance = self.position + asteroid.position
+
+        if distance <= self.radius + asteroid.radius:
+            return True
+        else:
+            return False
