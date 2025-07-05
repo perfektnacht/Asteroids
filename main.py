@@ -40,12 +40,16 @@ def main():
 
         pygame.Surface.fill(screen,(0,0,0))
         
+        #Sets up the player rotation
+        player.update(dt)
+
         #Draw a player before flipping the screen
         player.draw(screen)
+        
 
         pygame.display.flip()
         clock.tick(60)
-        dt = (clock.get_time() / 1000) 
+        dt = (clock.get_time() / 1000)
 
 if __name__ == "__main__":
     main()
